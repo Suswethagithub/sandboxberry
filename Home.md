@@ -65,3 +65,30 @@ SandboxBerry can correctly map relationships as long as:
 * All related objects are transferred in the same run
 
 That last point means: You can't transfer Country__c in one run, and then do a separate run to transfer Account. SandboxBerry needs to keep track of the old id/new id pairs as it runs through the instructions, so it needs to do everything in one go.
+
+# Deleting Target Data
+
+The above constraints mean that the Target sandbox should be blank, or at least the Target tables that you are copying data into should be blank.
+
+SandboxBerry has the ability to delete all data from the Target tables if needed:
+
+* Enter Target login details 
+* Choose an Instructions File 
+* Choose 'Tools -> Clear Target Data ...' from the menu. 
+* SandboxBerry will ask you to confirm.
+
+Note that for every object/table mentioned in the Instructions file, SandboxBerry will then delete all data from the Target. If filters are specified in the Instuction File, the same filters will be used for deletion.
+
+When the delete has finished you can then press Start (if you want to) to transfer the data from Source to Target, knowing that the Target object/tables are all empty.
+
+# Other Features
+
+If the 'Owner' of a record is no longer an Active User, SandboxBerry will change the Owner to be the user specified as the Target login. (Salesforce wont let you add new records with an inactive Owner, so the owner has to be changed for those records if they are to be transferred). 
+
+Sometimes objects have lookup relationships to themselves. (e.g. when a hierarchy is defined). SandboxBerry can handle these self-lookups as long as there is only one of them per object/table. 
+
+# Logging
+
+While data is being transferred, SandboxBerry outputs data to the main form.
+
+It also logs more detailed data to a Log.txt file - this can be found in the same folder as the executable. The log.txt file will only get created if the running user has write permissions to the appropriate folder.
